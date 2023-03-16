@@ -1,11 +1,11 @@
-import random
 from typing import List
 from fastapi import FastAPI, Response, HTTPException, Depends
-from pydantic import BaseModel
 import models
 import schemas
+import utils
 from database import engine, get_db
 from sqlalchemy.orm import Session
+
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -63,3 +63,20 @@ def update_post(id: int, post: schemas.PostBase, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(old_post)
     return old_post
+
+
+@app.post("/users", status_code=201, response_model=schemas.UserOut)
+def create_user(user: schemas.UserCreate, db :Session = Depends(get_db)):
+
+    user.password = utils.hash(user.password)
+
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+
+@app.get("/users")
+def get_user(user: schemas):
+    pass
