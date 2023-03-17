@@ -1,25 +1,21 @@
-import datetime
 from pydantic import BaseModel, EmailStr
+import datetime
 
 
-
-class PostBase(BaseModel):
-    title: str
-    content: str
-    published: bool = True
+class TaskBase(BaseModel):
+    description: str
+    completed: bool = False
 
 
-class PostCreate(PostBase):
-    pass
-
-
-class Post(PostBase):
-    pass
+class Task(TaskBase):
+    created_at: datetime.datetime
+    completed_at: datetime.datetime
 
     class Config:
         orm_mode = True
 
-class UserCreate(BaseModel):
+
+class CreateUser(BaseModel):
     email: EmailStr
     password: str
 
@@ -31,4 +27,3 @@ class UserOut(BaseModel):
 
     class Config:
         orm_mode = True
-
