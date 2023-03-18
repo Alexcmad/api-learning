@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 import datetime
+from typing import Optional
 
 
 class TaskBase(BaseModel):
@@ -31,3 +32,7 @@ class UserOut(BaseModel):
 
 class LoginUser(CreateUser):
     pass
+
+
+class TokenData(BaseModel):
+    id: Optional[str] = None

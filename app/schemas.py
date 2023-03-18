@@ -1,5 +1,6 @@
 import datetime
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 
 class PostBase(BaseModel):
@@ -33,5 +34,13 @@ class UserOut(BaseModel):
         orm_mode = True
 
 
-class UserLogin(UserCreate):
-    pass
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+    class Config:
+        orm_mode = True
+
+
+class TokenData(BaseModel):
+    id: Optional[str] = None
