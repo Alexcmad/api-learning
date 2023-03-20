@@ -1,24 +1,35 @@
-from pydantic import BaseModel, EmailStr
 import datetime
 from typing import Optional
 
+from pydantic import BaseModel, EmailStr
+
 
 class TaskBase(BaseModel):
-    description: str
+    content: str
     completed: bool = False
 
 
-class Task(TaskBase):
+class TaskAdd(TaskBase):
+    pass
+
+
+class TaskOut(TaskBase):
+    id: int
     created_at: datetime.datetime
     completed_at: datetime.datetime
+    owner_id: int
 
     class Config:
         orm_mode = True
 
 
-class CreateUser(BaseModel):
+class UserBase(BaseModel):
     email: EmailStr
     password: str
+
+
+class UserCreate(UserBase):
+    pass
 
 
 class UserOut(BaseModel):
@@ -30,9 +41,14 @@ class UserOut(BaseModel):
         orm_mode = True
 
 
-class LoginUser(CreateUser):
-    pass
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+    class Config:
+        orm_mode = True
 
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+

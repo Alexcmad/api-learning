@@ -9,17 +9,6 @@ class PostBase(BaseModel):
     published: bool = True
 
 
-class PostCreate(PostBase):
-    pass
-
-
-class Post(PostBase):
-    pass
-
-    class Config:
-        orm_mode = True
-
-
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
@@ -29,6 +18,20 @@ class UserOut(BaseModel):
     id: int
     email: EmailStr
     created_at: datetime.datetime
+
+    class Config:
+        orm_mode = True
+
+
+class PostCreate(PostBase):
+    pass
+
+
+class Post(PostBase):
+    owner_id: int
+    id: int
+    owner: UserOut
+    pass
 
     class Config:
         orm_mode = True
